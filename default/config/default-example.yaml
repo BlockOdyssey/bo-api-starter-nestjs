@@ -8,4 +8,5 @@ db:
 
 jwt:
   expiresIn: 3600
-  secret: 'blockodyssey'
+  accessTokenSecret: 'blockodyssey1'
+  refreshTokenSecret: 'blockodyssey2'
