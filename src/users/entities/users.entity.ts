@@ -60,7 +60,7 @@ export class Users {
   @Column('enum', {
     enum: UserRoute,
     comment: `가입 경로 (${Object.values(UserRoute)})`,
-    default: UserRoute.E,
+    default: UserRoute.Email,
   })
   @IsEnum(UserRoute)
   @IsNotEmpty()
