@@ -21,7 +21,7 @@ export class Users {
   @PrimaryGeneratedColumn({ comment: '사용자 인덱스' })
   id: number;
 
-  @Column('varchar', { length: 50, comment: '사용자 이메일' })
+  @Column('varchar', { length: 50, unique: true, comment: '사용자 이메일' })
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -36,13 +36,13 @@ export class Users {
   @IsNotEmpty()
   username: string;
 
-  @Column('varchar', { length: 20, comment: '사용자 전화번호' })
+  @Column('varchar', { length: 20, unique: true, comment: '사용자 전화번호' })
   @Matches(/^01[0179][0-9]{7,8}$/, { message: 'Wrong phone number' })
   @IsString()
   @IsNotEmpty()
   phoneNum: string;
 
-  @Column('varchar', { length: 50, comment: '사용자 닉네임' })
+  @Column('varchar', { length: 50, unique: true, comment: '사용자 닉네임' })
   @IsString()
   @IsNotEmpty()
   nickname: string;
