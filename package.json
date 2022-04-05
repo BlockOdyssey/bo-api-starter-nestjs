@@ -7,11 +7,11 @@
     ],
     "main": "index.js",
     "bin": {
-        "bo-api-starter-ts": "bin/index.js"
+        "bo-api-starter-nestjs": "bin/index.js"
     },
     "scripts": {
         "start": "node bin/index.js",
-        "bo-api-starter-ts": "node bin/index.js"
+        "bo-api-starter-nestjs": "node bin/index.js"
     },
     "author": {
         "name": "blockodyssey",
