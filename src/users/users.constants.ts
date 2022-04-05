@@ -1,6 +1,6 @@
 export enum UserRoute {
-  E = 'Email',
-  G = 'Google',
-  K = 'Kakao',
-  F = 'Facebook',
+  'Email' = 'E',
+  'Google' = 'G',
+  'Kakao' = 'K',
+  'Facebook' = 'F',
 }
