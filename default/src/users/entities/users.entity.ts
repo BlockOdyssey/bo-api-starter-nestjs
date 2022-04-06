@@ -66,6 +66,11 @@ export class Users {
   @IsNotEmpty()
   userRoute: string;
 
+  @Column('varchar', { length: 300, comment: 'Access Token', nullable: true })
+  @IsString()
+  @IsOptional()
+  accessToken: string;
+
   @Column('varchar', { length: 300, comment: 'Refresh Token', nullable: true })
   @IsString()
   @IsOptional()
