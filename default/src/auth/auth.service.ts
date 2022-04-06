@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayloadDto } from './dtos/jwt-payload.dto';
+import { JwtPayload } from '../common/jwt/jwt.payload';
 import * as config from 'config';
 const jwtConfig = config.get('jwt');
 
@@ -12,7 +12,7 @@ const jwtConfig = config.get('jwt');
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  public async createAccessToken(payload: JwtPayloadDto) {
+  public async createAccessToken(payload: JwtPayload) {
     try {
       const accessToken = await this.jwtService.signAsync(payload, {
         secret: jwtConfig.accessTokenSecret,
@@ -24,7 +24,7 @@ export class AuthService {
     }
   }
 
-  public async createRefreshToken(payload: JwtPayloadDto) {
+  public async createRefreshToken(payload: JwtPayload) {
     try {
       const refreshToken = await this.jwtService.signAsync(payload, {
         secret: jwtConfig.refreshTokenSecret,
