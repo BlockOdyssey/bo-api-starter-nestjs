@@ -95,14 +95,28 @@ export class UsersService {
 
   async userLogout({ id }: Users): Promise<void> {
     try {
-      await this.usersRepository.clearTokenInfo(id);
+      await this.usersRepository.update(
+        { id },
+        { accessToken: null, refreshToken: null },
+      );
       return;
     } catch (error) {
       throw new InternalServerErrorException('server error');
     }
   }
 
-  async getNewAccessToken() {}
+  async getNewAccessToken({ id }: Users) {
+    try {
+      const tokenPayload = { sub: id };
+      const accessToken = await this.authService.createAccessToken(
+        tokenPayload,
+      );
+      await this.usersRepository.update({ id }, { accessToken });
+      return await this.getUserById(id);
+    } catch (error) {
+      throw new InternalServerErrorException('server error');
+    }
+  }
 
   async getUserInfo() {}
 

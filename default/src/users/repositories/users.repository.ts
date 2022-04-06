@@ -9,20 +9,12 @@ export class UsersRepository extends Repository<Users> {
 
   async checkEmailDuplicates(email: string): Promise<boolean> {
     const result = await this.count({ email });
-    if (result > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return result > 0;
   }
 
   async checkPhoneNumDuplicates(phoneNum: string): Promise<boolean> {
     const result = await this.count({ phoneNum });
-    if (result > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return result > 0;
   }
 
   async getUserResult(id: number): Promise<Users> {
@@ -40,10 +32,5 @@ export class UsersRepository extends Repository<Users> {
         ],
       },
     );
-  }
-
-  async clearTokenInfo(id: number): Promise<void> {
-    await this.update({ id }, { accessToken: null, refreshToken: null });
-    return;
   }
 }
