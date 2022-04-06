@@ -93,9 +93,20 @@ export class UsersService {
     }
   }
 
-  async userLogout() {}
+  async userLogout({ id }: Users): Promise<void> {
+    try {
+      await this.usersRepository.clearTokenInfo(id);
+      return;
+    } catch (error) {
+      throw new InternalServerErrorException('server error');
+    }
+  }
 
   async getNewAccessToken() {}
 
   async getUserInfo() {}
+
+  async getUserById(id: number) {
+    return await this.usersRepository.findOne({ id });
+  }
 }

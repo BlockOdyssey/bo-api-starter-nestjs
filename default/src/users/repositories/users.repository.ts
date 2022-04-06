@@ -1,5 +1,4 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { LoginRequestDto } from '../dtos/login-request.dto';
 import { Users } from '../entities/users.entity';
 
 @EntityRepository(Users)
@@ -41,5 +40,10 @@ export class UsersRepository extends Repository<Users> {
         ],
       },
     );
+  }
+
+  async clearTokenInfo(id: number): Promise<void> {
+    await this.update({ id }, { accessToken: null, refreshToken: null });
+    return;
   }
 }

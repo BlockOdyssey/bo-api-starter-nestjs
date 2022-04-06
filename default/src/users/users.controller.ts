@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import {
   JwtAccessAuthGuard,
   JwtRefreshAuthGuard,
@@ -8,6 +17,7 @@ import { CreateUserRequestDto } from './dtos/create-user-request.dto';
 import { CreateUserResponseDto } from './dtos/create-user-response.dto';
 import { LoginRequestDto } from './dtos/login-request.dto';
 import { LoginResponseDto } from './dtos/login-response.dto';
+import { Users } from './entities/users.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -34,20 +44,26 @@ export class UsersController {
     return { ...joinResult, refreshToken: undefined };
   }
 
-  @UseGuards(JwtAccessAuthGuard)
   @Post('logout')
-  async userLogout() {
-    return this.usersService.userLogout();
+  @UseGuards(JwtAccessAuthGuard)
+  @HttpCode(200)
+  async userLogout(
+    @CurrentUser() user: Users,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    await this.usersService.userLogout(user);
+    res.clearCookie('refreshToken');
+    return;
   }
 
+  @Post('token/refresh')
   @UseGuards(JwtRefreshAuthGuard)
-  @Post('token')
   async getNewAccessToken() {
     return this.usersService.getNewAccessToken();
   }
 
-  @UseGuards(JwtAccessAuthGuard)
   @Get('info')
+  @UseGuards(JwtAccessAuthGuard)
   async getUserInfo() {
     return this.usersService.getUserInfo();
   }
