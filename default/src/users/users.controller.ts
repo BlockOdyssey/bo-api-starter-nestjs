@@ -58,14 +58,14 @@ export class UsersController {
 
   @Post('token')
   @UseGuards(JwtRefreshAuthGuard)
-  async getNewAccessToken(@CurrentUser() user: Users) {
+  async getNewAccessToken(@CurrentUser() user: Users): Promise<Object> {
     const updateResult = await this.usersService.getNewAccessToken(user);
     return { accessToken: updateResult.accessToken };
   }
 
   @Get('info')
   @UseGuards(JwtAccessAuthGuard)
-  async getUserInfo() {
-    return this.usersService.getUserInfo();
+  async getUserInfo(@CurrentUser() user: Users): Promise<Users> {
+    return this.usersService.getUserInfo(user);
   }
 }

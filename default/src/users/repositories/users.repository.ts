@@ -17,7 +17,7 @@ export class UsersRepository extends Repository<Users> {
     return result > 0;
   }
 
-  async getUserResult(id: number): Promise<Users> {
+  async getUserCreateResult(id: number): Promise<Users> {
     return this.findOne(
       { id },
       {
@@ -29,6 +29,24 @@ export class UsersRepository extends Repository<Users> {
           'userRoute',
           'accessToken',
           'refreshToken',
+        ],
+      },
+    );
+  }
+
+  async getUserInfo(id: number): Promise<Users> {
+    return this.findOne(
+      { id },
+      {
+        select: [
+          'email',
+          'username',
+          'phoneNum',
+          'nickname',
+          'userRoute',
+          'description',
+          'profileImg',
+          'createdAt',
         ],
       },
     );
