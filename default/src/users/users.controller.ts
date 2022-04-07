@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Post,
@@ -67,5 +68,17 @@ export class UsersController {
   @UseGuards(JwtAccessAuthGuard)
   async getUserInfo(@CurrentUser() user: Users): Promise<Users> {
     return this.usersService.getUserInfo(user);
+  }
+
+  @Delete('leave')
+  @UseGuards(JwtAccessAuthGuard)
+  @HttpCode(200)
+  async userLeave(
+    @CurrentUser() user: Users,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<void> {
+    await this.usersService.userLeave(user);
+    res.clearCookie('refreshToken');
+    return;
   }
 }
