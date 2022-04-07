@@ -126,6 +126,15 @@ export class UsersService {
     }
   }
 
+  async userLeave({ id }: Users): Promise<void> {
+    try {
+      await this.usersRepository.deleteUser(id);
+      return;
+    } catch (error) {
+      throw new InternalServerErrorException('server error');
+    }
+  }
+
   async getUserById(id: number) {
     return await this.usersRepository.findOne({ id });
   }

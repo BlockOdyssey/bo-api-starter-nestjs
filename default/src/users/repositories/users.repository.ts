@@ -51,4 +51,10 @@ export class UsersRepository extends Repository<Users> {
       },
     );
   }
+
+  async deleteUser(id: number): Promise<void> {
+    await this.update({ id }, { accessToken: null, refreshToken: null });
+    await this.softRemove({ id });
+    return;
+  }
 }
