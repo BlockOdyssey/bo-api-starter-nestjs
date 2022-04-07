@@ -105,7 +105,7 @@ export class UsersService {
     }
   }
 
-  async getNewAccessToken({ id }: Users) {
+  async getNewAccessToken({ id }: Users): Promise<Users> {
     try {
       const tokenPayload = { sub: id };
       const accessToken = await this.authService.createAccessToken(
@@ -118,7 +118,13 @@ export class UsersService {
     }
   }
 
-  async getUserInfo() {}
+  async getUserInfo({ id }: Users): Promise<Users> {
+    try {
+      return await this.usersRepository.getUserInfo(id);
+    } catch (error) {
+      throw new InternalServerErrorException('server error');
+    }
+  }
 
   async getUserById(id: number) {
     return await this.usersRepository.findOne({ id });

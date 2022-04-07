@@ -33,4 +33,22 @@ export class UsersRepository extends Repository<Users> {
       },
     );
   }
+
+  async getUserInfo(id: number): Promise<Users> {
+    return this.findOne(
+      { id },
+      {
+        select: [
+          'email',
+          'username',
+          'phoneNum',
+          'nickname',
+          'userRoute',
+          'description',
+          'profileImg',
+          'createdAt',
+        ],
+      },
+    );
+  }
 }
