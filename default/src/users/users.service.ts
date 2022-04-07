@@ -45,7 +45,7 @@ export class UsersService {
           { accessToken, refreshToken },
         );
 
-        return await this.usersRepository.getUserResult(loginResult.id);
+        return await this.usersRepository.getUserCreateResult(loginResult.id);
       } else {
         throw new ConflictException('wrong password');
       }
@@ -87,7 +87,7 @@ export class UsersService {
         { accessToken, refreshToken },
       );
 
-      return await this.usersRepository.getUserResult(createResult.id);
+      return await this.usersRepository.getUserCreateResult(createResult.id);
     } catch (error) {
       throw new InternalServerErrorException('server error');
     }

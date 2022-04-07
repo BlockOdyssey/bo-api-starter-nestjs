@@ -17,7 +17,7 @@ export class UsersRepository extends Repository<Users> {
     return result > 0;
   }
 
-  async getUserResult(id: number): Promise<Users> {
+  async getUserCreateResult(id: number): Promise<Users> {
     return this.findOne(
       { id },
       {
