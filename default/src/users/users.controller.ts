@@ -26,6 +26,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('login')
+  @HttpCode(200)
   async userLogin(
     @Body() loginInfo: LoginRequestDto,
     @Res({ passthrough: true }) res: Response,
@@ -59,6 +60,7 @@ export class UsersController {
 
   @Post('token')
   @UseGuards(JwtRefreshAuthGuard)
+  @HttpCode(200)
   async getNewAccessToken(@CurrentUser() user: Users): Promise<Object> {
     const updateResult = await this.usersService.getNewAccessToken(user);
     return { accessToken: updateResult.accessToken };
