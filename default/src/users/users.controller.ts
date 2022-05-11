@@ -5,10 +5,8 @@ import {
   Get,
   HttpCode,
   Post,
-  Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import {
   JwtAccessAuthGuard,
@@ -29,32 +27,22 @@ export class UsersController {
   @HttpCode(200)
   async userLogin(
     @Body() loginInfo: LoginRequestDto,
-    @Res({ passthrough: true }) res: Response,
   ): Promise<LoginResponseDto> {
-    const loginResult = await this.usersService.userLogin(loginInfo);
-    res.cookie('refreshToken', loginResult.refreshToken);
-    return { ...loginResult, refreshToken: undefined };
+    return await this.usersService.userLogin(loginInfo);
   }
 
   @Post('join')
   async joinUser(
     @Body() userInfo: CreateUserRequestDto,
-    @Res({ passthrough: true }) res: Response,
   ): Promise<CreateUserResponseDto> {
-    const joinResult = await this.usersService.joinUser(userInfo);
-    res.cookie('refreshToken', joinResult.refreshToken);
-    return { ...joinResult, refreshToken: undefined };
+    return await this.usersService.joinUser(userInfo);
   }
 
   @Post('logout')
   @UseGuards(JwtAccessAuthGuard)
   @HttpCode(200)
-  async userLogout(
-    @CurrentUser() user: Users,
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<void> {
+  async userLogout(@CurrentUser() user: Users): Promise<void> {
     await this.usersService.userLogout(user);
-    res.clearCookie('refreshToken');
     return;
   }
 
@@ -75,12 +63,8 @@ export class UsersController {
   @Delete('leave')
   @UseGuards(JwtAccessAuthGuard)
   @HttpCode(200)
-  async userLeave(
-    @CurrentUser() user: Users,
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<void> {
+  async userLeave(@CurrentUser() user: Users): Promise<void> {
     await this.usersService.userLeave(user);
-    res.clearCookie('refreshToken');
     return;
   }
 }

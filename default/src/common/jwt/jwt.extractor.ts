@@ -17,7 +17,7 @@ export const jwtRefreshExtractor: JwtFromRequestFunction = (
   request: Request,
 ): string | null => {
   try {
-    const refreshToken = request.cookies.refreshToken;
+    const refreshToken = request.body.refreshToken;
     return refreshToken;
   } catch (error) {
     throw new ForbiddenException('not authenticated');
