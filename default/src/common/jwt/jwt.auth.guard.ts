@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { TokenExpiredException } from '../exceptions/token-expired.exception';
 
 @Injectable()
 export class JwtAccessAuthGuard extends AuthGuard('jwt-access') {
@@ -14,7 +15,11 @@ export class JwtAccessAuthGuard extends AuthGuard('jwt-access') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      throw err || new UnauthorizedException('not valid access token');
+      if (info.message === 'jwt expired') {
+        throw new TokenExpiredException();
+      } else {
+        throw err || new UnauthorizedException('not valid access token');
+      }
     }
     return user;
   }
@@ -28,7 +33,11 @@ export class JwtRefreshAuthGuard extends AuthGuard('jwt-refresh') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      throw err || new ForbiddenException('not valid refresh token');
+      if (info.message === 'jwt expired') {
+        throw new TokenExpiredException();
+      } else {
+        throw err || new ForbiddenException('not valid refresh token');
+      }
     }
     return user;
   }
