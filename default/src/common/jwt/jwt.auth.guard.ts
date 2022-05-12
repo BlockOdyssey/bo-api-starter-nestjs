@@ -15,7 +15,7 @@ export class JwtAccessAuthGuard extends AuthGuard('jwt-access') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      if (info.message === 'jwt expired') {
+      if (info && info.message === 'jwt expired') {
         throw new TokenExpiredException();
       } else {
         throw err || new UnauthorizedException('not valid access token');
@@ -33,7 +33,7 @@ export class JwtRefreshAuthGuard extends AuthGuard('jwt-refresh') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      if (info.message === 'jwt expired') {
+      if (info && info.message === 'jwt expired') {
         throw new TokenExpiredException();
       } else {
         throw err || new ForbiddenException('not valid refresh token');
