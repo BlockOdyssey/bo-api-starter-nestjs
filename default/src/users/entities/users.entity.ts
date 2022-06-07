@@ -76,6 +76,11 @@ export class Users {
   @IsOptional()
   refreshToken: string;
 
+  @Column('varchar', { length: 300, comment: 'Push Token', nullable: true })
+  @IsString()
+  @IsOptional()
+  pushToken: string;
+
   @CreateDateColumn({ comment: '가입일시' })
   createdAt: Date;
 

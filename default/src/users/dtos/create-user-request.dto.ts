@@ -32,4 +32,8 @@ export class CreateUserRequestDto {
   @IsEnum(UserRoute)
   @IsNotEmpty()
   userRoute: string;
+
+  @IsString()
+  @IsNotEmpty()
+  pushToken: string;
 }
