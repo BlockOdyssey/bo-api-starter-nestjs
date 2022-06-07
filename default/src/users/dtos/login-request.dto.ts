@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { UserRoute } from '../users.constants';
 
 export class LoginRequestDto {
   @IsEmail()
@@ -8,4 +9,12 @@ export class LoginRequestDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsEnum(UserRoute)
+  @IsNotEmpty()
+  userRoute: string;
+
+  @IsString()
+  @IsNotEmpty()
+  pushToken: string;
 }
