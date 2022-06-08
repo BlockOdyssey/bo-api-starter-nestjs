@@ -21,9 +21,6 @@ const { mailUser, mailPassword } = mailConfig;
               pass: mailPassword,
             },
           },
-          defaults: {
-            from: '"M Station" <noreply@blockodyssey.io>',
-          },
           template: {
             dir: __dirname + '/templates',
             adapter: new EjsAdapter(),

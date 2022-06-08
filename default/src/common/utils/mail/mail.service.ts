@@ -7,6 +7,7 @@ export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
   async _send(
+    from: string,
     to: string[],
     subject: string,
     template: string,
@@ -28,6 +29,7 @@ export class MailService {
           });
         }
         return await this.mailerService.sendMail({
+          from,
           to: to.join(', '),
           subject,
           template: `${template}`,
