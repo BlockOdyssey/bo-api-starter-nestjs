@@ -37,12 +37,10 @@ export class PushService {
     } else {
       const pushMessages = getPushMessages(variables);
       for (let i in pushMessages) {
-        if (pushMessages[i].type === pushType) {
+        const { type, title, body } = pushMessages[i];
+        if (type === pushType) {
           const pushData = {
-            notification: {
-              title: pushMessages[i].title,
-              body: pushMessages[i].body,
-            },
+            notification: { title, body },
             token: pushToken,
           };
           return await admin
