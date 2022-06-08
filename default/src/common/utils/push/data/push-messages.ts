@@ -2,7 +2,7 @@ export interface PushVariables {
   variableName?: string;
 }
 
-export const getPushMessages = (variables?: PushVariables) => {
+export const getPushMessage = (type: string, variables?: PushVariables) => {
   const pushMessages = [
     {
       type: 'TEST',
@@ -10,5 +10,8 @@ export const getPushMessages = (variables?: PushVariables) => {
       body: 'Push 알림 테스트입니다.',
     },
   ];
-  return pushMessages;
+  for (let i in pushMessages) {
+    if (type === pushMessages[i].type) return pushMessages[i];
+  }
+  return null;
 };

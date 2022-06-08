@@ -2,7 +2,7 @@ import admin from 'firebase-admin';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersRepository } from 'src/users/repositories/users.repository';
-import { getPushMessages, PushVariables } from './data/push-messages';
+import { getPushMessage, PushVariables } from './data/push-messages';
 import * as configService from './data/firebase-admin.json';
 
 @Injectable()
@@ -35,29 +35,28 @@ export class PushService {
       console.log('Sending push notification fail: No push token');
       return false;
     } else {
-      const pushMessages = getPushMessages(variables);
-      for (let i in pushMessages) {
-        const { type, title, body } = pushMessages[i];
-        if (type === pushType) {
-          const pushData = {
-            notification: { title, body },
-            token: pushToken,
-          };
-          return await admin
-            .messaging()
-            .send(pushData)
-            .then(async (res) => {
-              console.log('Sending push notification success: ', res);
-              return true;
-            })
-            .catch((err) => {
-              console.log('Sending push notification fail: ', err);
-              return false;
-            });
-        }
+      const pushMessage = getPushMessage(pushType, variables);
+      if (pushMessage) {
+        const { title, body } = pushMessage;
+        const pushData = {
+          notification: { title, body },
+          token: pushToken,
+        };
+        return await admin
+          .messaging()
+          .send(pushData)
+          .then(async (res) => {
+            console.log('Sending push notification success: ', res);
+            return true;
+          })
+          .catch((err) => {
+            console.log('Sending push notification fail: ', err);
+            return false;
+          });
+      } else {
+        console.log('Sending push notification fail: Wrong push type');
+        return false;
       }
-      console.log('Sending push notification fail: Wrong push type');
-      return false;
     }
   }
 }
